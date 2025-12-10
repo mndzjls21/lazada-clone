@@ -43,6 +43,7 @@ const menuItems: MenuItem[] = [
     label: 'Orders', 
     icon: IoReceiptOutline, 
     subItems: [
+      'Orders',
       'Logistics',
       'Return Orders',
       'Reviews'
@@ -172,37 +173,52 @@ export default function SellerDashboardNavbar() {
 
         {menuItems.map((item) => (
           <div key={item.id}>
-            <button
-              onClick={() => {
-                if (activeItem === item.id) {
-                  setActiveItem('');
-                } else {
-                  setActiveItem(item.id);
-                  setShowSettings(false);
-                }
-                if (item.subItems && item.subItems.length > 0) {
+            {item.subItems && item.subItems.length > 0 ? (
+              <button
+                onClick={() => {
+                  if (activeItem === item.id) {
+                    setActiveItem('');
+                  } else {
+                    setActiveItem(item.id);
+                    setShowSettings(false);
+                  }
                   toggleExpand(item.id);
-                }
-              }}
-              className={`w-full flex items-center justify-between px-6 py-2.5 text-left transition-colors ${
-                activeItem === item.id
-                  ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600'
-                  : 'text-black hover:bg-gray-50'
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <item.icon className="text-lg opacity-60" />
-                <span className="text-sm font-medium">{item.label}</span>
-              </div>
-              <svg 
-                className={`w-4 h-4 transition-transform ${activeItem === item.id ? 'rotate-180' : ''}`} 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
+                }}
+                className={`w-full flex items-center justify-between px-6 py-2.5 text-left transition-colors ${
+                  activeItem === item.id
+                    ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600'
+                    : 'text-black hover:bg-gray-50'
+                }`}
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+                <div className="flex items-center gap-3">
+                  <item.icon className="text-lg opacity-60" />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </div>
+                <svg 
+                  className={`w-4 h-4 transition-transform ${activeItem === item.id ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            ) : (
+              <Link
+                href={`/seller-dashboard/${item.id === 'marketing' ? 'marketing' : 
+                       item.id === 'data' ? 'data-insight' :
+                       item.id === 'privilege' ? 'shop-privilege' :
+                       item.id === 'learn' ? 'learn-and-grow' :
+                       item.id === 'engagement' ? 'engagement-center' :
+                       item.id}`}
+                className="w-full flex items-center justify-between px-6 py-2.5 text-left transition-colors text-black hover:bg-gray-50"
+              >
+                <div className="flex items-center gap-3">
+                  <item.icon className="text-lg opacity-60" />
+                  <span className="text-sm font-medium">{item.label}</span>
+                </div>
+              </Link>
+            )}
             
             {/* Submenu items would go here if needed */}
             {item.subItems && expandedItems.includes(item.id) && (
@@ -216,8 +232,17 @@ export default function SellerDashboardNavbar() {
                     href = '/seller-dashboard/add-product';
                   } else if (subItem === 'Decorate Products') {
                     href = '/seller-dashboard/decorate-products';
+                  } else if (subItem === 'Orders' && item.id === 'orders') {
+                    href = '/seller-dashboard/orders';
+                  } else if (subItem === 'Logistics') {
+                    href = '/seller-dashboard/logistics';
+                  } else if (subItem === 'Return Orders') {
+                    href = '/seller-dashboard/return-orders';
+                  } else if (subItem === 'Reviews') {
+                    href = '/seller-dashboard/reviews';
                   } else {
-                    href = `/seller-dashboard/${item.id}/${subItem.toLowerCase().replace(/\s+/g, '-')}`;
+                    // For other items, create coming soon pages
+                    href = `/seller-dashboard/${subItem.toLowerCase().replace(/\s+/g, '-').replace(/\(/g, '').replace(/\)/g, '')}`;
                   }
                   
                   return (
