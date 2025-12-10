@@ -65,8 +65,8 @@ Professional placeholder pages for all other seller center features including:
 
 1. Clone the repository
 ```bash
-git clone https://github.com/YOUR_USERNAME/lazada-seller-center.git
-cd lazada-seller-center
+git clone https://github.com/mndzjls21/lazada-clone.git
+cd lazada-clone
 ```
 
 2. Install dependencies
